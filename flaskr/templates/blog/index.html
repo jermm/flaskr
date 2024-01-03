@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Posts{% endblock %}</h1>
+  {% if g.user %}
+
+    <a class="action" href="{{ url_for('blog.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    <article class="post">
+    
+      <header>  
+         <table>
+          <tr>
+            <tr>
+              <td>
+                <h1>{{ post['title'] }}</h1>
+
+              </td>
+              
+              {% if g.user['id'] == post['author_id'] %}
+                <td>
+               
+                  <h1> <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a></h1>
+                
+                </td>
+              <tr>
+                <td>
+                  <p class="body"><a class="action" href="{{ url_for('blog.view', id=post['id']) }}" target="_blank">{{ post['body'] }}</a></p> 
+                </td>
+              </tr>
+
+              
+              {% endif %}
+            </tr>
+            <tr>
+              <td>
+                <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%d-%b-%Y') }}</div>
+              <td>
+            </tr>
+            <tr>
+              <td>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>         
+                <script type=text/javascript>
+
+                  $(document).ready(function() {
+
+                    document.getElementById('thumbs_up').id = "thumbs_up"+"{{post['id']|tojson}}";
+                    document.getElementById('likescounter').id = "likescounter"+"{{post['id']|tojson}}";
+
+                    $('#thumbs_up{{post['id']|tojson}}').on('click', function(e) {
+                      
+                      e.preventDefault();
+
+                      $.getJSON('/likes_update', {
+                        post_id:{{post['id']|tojson}}
+                        },function(result) {
+                          $.each(result, function(i, field){
+                            if(i=="result"){
+                              //alert("here! "+field);
+                              $('#likescounter{{post['id']|tojson}}').html(field);
+                            }
+                          });
+                      });
+                      return false;
+                    });
+                  });
+                </script>
+
+                <span id='thumbs_up' class="fa fa-thumbs-up"></span>
+                <span id=likescounter>{{ post['likes'] }}</span>
+                </tr>
+              </td>
+              <td>
+
+              </td>
+            </tr>
+
+          </tr>
+        </table>
+        
+      </header>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
