@@ -1,7 +1,7 @@
 # flaskr
 Just some Flask work done to show basic & asynchronous REST functions
 
-Functions created:
+**Functions** created:
 
 1. Create user account
 2. User Login
@@ -13,9 +13,9 @@ Functions created:
 8. Created automated test scripts
    
 
-Installation
-
+**Installation**
 .venv/lib files haven't been uploaded completely.
+
 
 Most of the functions are based off examples from this page: https://flask.palletsprojects.com/en/2.3.x/
 
