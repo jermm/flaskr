@@ -1,7 +1,7 @@
 # flaskr
 Just some Flask work done to show basic & asynchronous REST functions
 
-**Functions** created:
+****Functions** created:**
 
 1. Create user account
 2. User Login
